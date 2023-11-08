@@ -2,7 +2,7 @@
 import "./Navbar.css";
 
 // images
-import Logo from "../assets/shared/desktop/Logo.svg";
+import Logo from "../assets/shared/desktop/logo.svg";
 import Cart from "../assets/shared/desktop/icon-cart.svg";
 import Hamburger from "../assets/shared/tablet/icon-hamburger.svg";
 import Headphone from "../assets/shared/desktop/image-category-thumbnail-headphones.png";
