@@ -13,7 +13,8 @@ datasource db {
 model Product {
   id            String     @id @default(uuid())
   slug          String
-  name          String
+  name          String     @default("null")
+  cartName      String?
   productImage  Image[]    @relation("ProductImage")
   category      String
   categoryImage Image[]    @relation("CategoryImage")
@@ -56,4 +57,19 @@ model Others {
   image     Image[]
   Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String?
+}
+
+model User {
+  id      String   @id @default(cuid())
+  name    String
+  email   String   @unique
+  isAdmin Boolean  @default(false)
+  orders  Orders[]
+}
+
+model Orders {
+  id      String  @id @default(cuid())
+  product String
+  User    User?   @relation(fields: [userId], references: [id])
+  userId  String?
 }

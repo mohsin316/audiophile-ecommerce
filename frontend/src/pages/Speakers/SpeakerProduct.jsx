@@ -1,8 +1,10 @@
 // imports
 import { useParams, Link, ScrollRestoration } from "react-router-dom";
-
+import { useState } from "react";
+import { addToCart } from "../../features/cartSlice";
+import { useDispatch } from "react-redux";
 // RTKQ
-import { useGetProductsQuery } from "../../features/productsSlice";
+import { useGetProductsQuery } from "../../features/productsApiSlice";
 
 // styles
 import "./SpeakerProduct.css";
@@ -12,12 +14,40 @@ import Category from "../../components/Category";
 import ShortAbout from "../../components/ShortAbout";
 
 export default function SpeakerProduct() {
+  const dispatch = useDispatch();
   const { id } = useParams();
+  const [itemNumber, setItemNumber] = useState(1);
   const { product } = useGetProductsQuery("speakers", {
     selectFromResult: ({ data }) => ({
       product: data?.entities[id],
     }),
   });
+
+  const handleCount = (operation) => {
+    if (operation === "add") {
+      setItemNumber((prevItemNumber) => prevItemNumber + 1);
+    } else {
+      setItemNumber((prevItemNumber) => {
+        if (prevItemNumber <= 1) {
+          return 1;
+        } else {
+          return prevItemNumber - 1;
+        }
+      });
+    }
+  };
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart(
+        product.id,
+        product.cartName,
+        itemNumber,
+        product.price,
+        product.productImage[0].mobile
+      )
+    );
+  };
 
   return (
     <>
@@ -59,11 +89,16 @@ export default function SpeakerProduct() {
                   <strong>$ {product.price}</strong>
                   <div className="add-to-cart-container">
                     <div className="quantity-counter">
-                      <button>-</button>
-                      <small>1</small>
-                      <button>+</button>
+                      <button onClick={() => handleCount("subtract")}>-</button>
+                      <small>{itemNumber}</small>
+                      <button onClick={() => handleCount("add")}>+</button>
                     </div>
-                    <button className="add-to-cart-button">add to cart</button>
+                    <button
+                      className="add-to-cart-button"
+                      onClick={handleAddToCart}
+                    >
+                      add to cart
+                    </button>
                   </div>
                 </div>
               </div>

@@ -5,7 +5,7 @@ import { ScrollRestoration } from "react-router-dom";
 import "./Headphones.css";
 
 // RTKQ
-import { useGetProductsQuery } from "../../features/productsSlice";
+import { useGetProductsQuery } from "../../features/productsApiSlice";
 
 // componenets
 import Category from "../../components/Category";
@@ -14,7 +14,6 @@ import ProductList from "../../components/ProductList";
 
 export default function Headphones() {
   const { isSuccess, data } = useGetProductsQuery("headphones");
-  console.log();
 
   return (
     <>

@@ -45,7 +45,11 @@
     font-size: var(--fs-15);
   }
 
-  .hero-introduction button {
+  .hero-introduction a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
     margin-top: 28px;
     width: 160px;
     height: 48px;
@@ -80,8 +84,6 @@
   }
 }
 
-/* change h1, padding and button for desktop. */
-
 @media (min-width: 43.75em) {
   .hero-introduction {
     padding: 7.875rem 1.5rem 10.4375rem;
@@ -94,7 +96,11 @@
     font-size: var(--fs-56);
     text-transform: uppercase;
   }
-  .hero-introduction button {
+  .hero-introduction a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
     margin-top: 2.5rem;
     font-size: var(--fs-13);
     font-weight: var(--fw-B);
@@ -169,7 +175,11 @@
     line-height: 25px;
   }
 
-  .hero-introduction button {
+  .hero-introduction a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
     margin-top: 0;
     width: 160px;
     height: 48px;
@@ -256,7 +266,11 @@
   margin-bottom: 1.5rem;
 }
 
-.latest-speaker-one-details button {
+.latest-speaker-one-details a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
   width: 165px;
   border-radius: 0;
   background-color: black;
@@ -293,7 +307,7 @@
     margin-bottom: 2.5rem;
   }
 
-  .latest-speaker-one-details button {
+  .latest-speaker-one-details a {
     margin-bottom: 4rem;
   }
 }
@@ -338,6 +352,9 @@
 }
 
 @media (min-width: 65em) {
+  .latest-speaker-one-details {
+    margin-top: 2rem;
+  }
   .latest-product-section-one .container {
     background-position: -120px -50px;
     background-repeat: no-repeat;
@@ -380,10 +397,15 @@
   margin-bottom: 2rem;
 }
 
-.latest-speaker-two-details button {
+.latest-speaker-two-details a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
   width: 165px;
   height: 50px;
   border-radius: 0;
+  color: black;
   background: transparent;
   border: none;
   outline: 1.75px solid black;
@@ -445,11 +467,16 @@
   font-size: var(--fs-28);
   letter-spacing: 2px;
 }
-.latest-earphone-three-details button {
+.latest-earphone-three-details a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
   width: 165px;
   height: 50px;
   border-radius: 0;
   background: transparent;
+  color: black;
   border: none;
   outline: 1.75px solid black;
   text-transform: uppercase;

@@ -5,7 +5,7 @@ import { Link, ScrollRestoration } from "react-router-dom";
 import "./Speakers.css";
 
 // RTKQ
-import { useGetProductsQuery } from "../../features/productsSlice";
+import { useGetProductsQuery } from "../../features/productsApiSlice";
 
 // componenets
 import Category from "../../components/Category";

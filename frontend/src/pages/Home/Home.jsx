@@ -5,6 +5,9 @@ import "./Home.css";
 // components
 import ShortAbout from "../../components/ShortAbout";
 
+// imports
+import { Link } from "react-router-dom";
+
 //images
 import Circles from "../../assets/home/desktop/pattern-circles.svg";
 import SpeakerDesktop from "../../assets/home/desktop/image-speaker-zx9.png";
@@ -26,7 +29,9 @@ export default function Home() {
               Experience natural, lifelike audio and exceptional build quality
               made for the passionate music enthusiast.
             </p>
-            <button>See Product</button>
+            <Link to="headphones/ba0dabe8-3e70-47a3-875a-d86d4b56d204">
+              see product
+            </Link>
           </div>
           <div className="hero-image"></div>
         </div>
@@ -55,7 +60,9 @@ export default function Home() {
                 Upgrade to premium speakers that are phenomenally built to
                 deliver truly remarkable sound.
               </p>
-              <button>see product</button>
+              <Link to="speakers/bd1374ae-0c9a-43a7-9631-21dcb39485c9">
+                see product
+              </Link>
             </div>
           </div>
         </div>
@@ -65,7 +72,9 @@ export default function Home() {
           <div className="even-columns">
             <div className="latest-speaker-two-details">
               <h5>ZX7 SPEAKER</h5>
-              <button>see product</button>
+              <Link to="speakers/f788d51d-b2f0-485f-a116-7919a90976b3">
+                see product
+              </Link>
             </div>
           </div>
         </div>
@@ -82,7 +91,9 @@ export default function Home() {
             </div>
             <div className="latest-earphone-three-details">
               <h5>YX1 EARPHONES</h5>
-              <button>see product</button>
+              <Link to="earphones/16b9c767-ed4d-473a-b880-e4ef1a132f17">
+                see product
+              </Link>
             </div>
           </div>
         </div>

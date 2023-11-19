@@ -33,8 +33,8 @@ const postProduct = async (req, res) => {
 
   const product = await prisma.product.create({
     data: {
-      slug: "zx7-speaker",
-      name: "ZX7 Speaker",
+      slug: "zx7-speaker1",
+      name: "ZX7 Speaker1",
       productImage: {
         create: {
           mobile:
