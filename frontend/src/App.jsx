@@ -18,7 +18,7 @@ import EarphoneProduct from "./pages/Earphones/EarphoneProduct";
 import Checkout from "./components/Checkout";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import RequireAuth from "./components/requireAuth";
+import RequireAuthen from "./components/RequireAuthen";
 import PersistLogin from "./components/PersistLogin";
 import NotFound from "./components/NotFound";
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -54,7 +54,7 @@ const router = createBrowserRouter(
           <Route path=":id" element={<EarphoneProduct />} />
         </Route>
 
-        <Route element={<RequireAuth />}>
+        <Route element={<RequireAuthen />}>
           <Route path="checkout" element={<Checkout />} />
           <Route path="dashboard" element={<Dashboard />}>
             <Route index element={<Orders />} />
