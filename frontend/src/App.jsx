@@ -18,7 +18,7 @@ import EarphoneProduct from "./pages/Earphones/EarphoneProduct";
 import Checkout from "./components/Checkout";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-// import RequireAuth from "./components/requireAuth";
+import RequireAuth from "./components/requireAuth";
 import PersistLogin from "./components/PersistLogin";
 import NotFound from "./components/NotFound";
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -54,17 +54,17 @@ const router = createBrowserRouter(
           <Route path=":id" element={<EarphoneProduct />} />
         </Route>
 
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="checkout" element={<Checkout />} />
-        <Route path="dashboard" element={<Dashboard />}>
-          <Route index element={<Orders />} />
-          <Route element={<RequireAdmin />}>
-            <Route path="create" element={<Create />} />
-            <Route path="edit">
-              <Route index element={<Edit />} />
-              <Route path=":id" element={<Update />} />
+        <Route element={<RequireAuth />}>
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="dashboard" element={<Dashboard />}>
+            <Route index element={<Orders />} />
+            <Route element={<RequireAdmin />}>
+              <Route path="create" element={<Create />} />
+              <Route path="edit">
+                <Route index element={<Edit />} />
+                <Route path=":id" element={<Update />} />
+              </Route>
             </Route>
-            {/* </Route> */}
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
