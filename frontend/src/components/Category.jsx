@@ -3,6 +3,7 @@ import "./Category.css";
 
 // imports
 import { Link } from "react-router-dom";
+import { motion as m } from "framer-motion";
 
 //images
 import Headphone from "../assets/shared/desktop/image-category-thumbnail-headphones.png";
@@ -12,7 +13,13 @@ import Arrow from "../assets/shared/desktop/icon-arrow-right.svg";
 
 export default function Category() {
   return (
-    <div className="flow category-spacer">
+    <m.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ ease: "easeInOut", duration: 0.5 }}
+      className="flow category-spacer"
+    >
       <div className="category">
         <img src={Headphone} alt="headphone-category" />
         <Link className="category-link" to="/headphones">
@@ -43,6 +50,6 @@ export default function Category() {
           <div style={{ backgroundImage: `url(${Arrow})` }}></div>
         </Link>
       </div>
-    </div>
+    </m.div>
   );
 }

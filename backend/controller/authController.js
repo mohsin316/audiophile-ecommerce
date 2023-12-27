@@ -4,8 +4,8 @@ const { supabase } = require("../config/supabaseCreateClient");
 
 // signup the user
 const signUp = async (req, res) => {
-  const { email, password, name } = req.body;
-  if (!email || !password || !name) {
+  const { email, password, username } = req.body;
+  if (!email || !password || !username) {
     return res
       .status(400)
       .json({ message: "Username and password are required." }); //bad request
@@ -22,7 +22,7 @@ const signUp = async (req, res) => {
       data: {
         id: data.user.id,
         email,
-        name,
+        username,
       },
     });
     res.cookie("jwt", data.session.refresh_token, {
@@ -33,7 +33,7 @@ const signUp = async (req, res) => {
     });
     res.json({
       accessToken: data.session.access_token,
-      user: { isAdmin: user.isAdmin, id: user.id },
+      user: { isAdmin: user.isAdmin, id: user.id, username: user.username },
     });
   } catch (error) {
     res.status(409).json({ error: error.message }); //conflict
@@ -70,7 +70,7 @@ const login = async (req, res) => {
     });
     res.json({
       accessToken: data.session.access_token,
-      user: { isAdmin: user.isAdmin, id: user.id },
+      user: { isAdmin: user.isAdmin, id: user.id, username: user.username },
     });
   } catch (error) {
     res.status(401).json({ error: error.message }); //unauthorized

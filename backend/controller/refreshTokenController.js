@@ -1,5 +1,6 @@
 const { supabase } = require("../config/supabaseCreateClient");
-
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 const handleRefreshToken = async (req, res) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) {
@@ -13,7 +14,20 @@ const handleRefreshToken = async (req, res) => {
   }
 
   const { session } = data;
-  res.json({ accessToken: session.access_token });
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+
+  if (!user) {
+    return res.sendStatus(403);
+  }
+
+  res.status(200).json({
+    accessToken: session.access_token,
+    user: { isAdmin: user.isAdmin, id: user.id, username: user.username },
+  });
 };
 
 module.exports = { handleRefreshToken };

@@ -3,12 +3,17 @@ import "./ProductList.css";
 
 // imports
 import { Link } from "react-router-dom";
+import { motion as m } from "framer-motion";
 
-export default function ProductList({ number, product }) {
-  // console.log(number, product);
-  //   console.log(product.categoryImage);
+export default function ProductList({ product }) {
   return (
-    <section className={product.new ? "new" : ""}>
+    <m.section
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ ease: "easeInOut", duration: 0.75 }}
+      className={product.new ? "new" : ""}
+    >
       <div className="container">
         <div className="even-columns">
           <div className="product-category-image">
@@ -35,6 +40,6 @@ export default function ProductList({ number, product }) {
           </div>
         </div>
       </div>
-    </section>
+    </m.section>
   );
 }

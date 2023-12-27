@@ -1,13 +1,26 @@
 // imports
-
+import { Player } from "@lottiefiles/react-lottie-player";
+import Loader from "../assets/shared/loader.json";
+import CartEmpty from "../assets/shared/cartEmpty1.json";
+import { motion as m } from "framer-motion";
 import { useSelector } from "react-redux";
 import { selectAll } from "../features/cartSlice";
+import { selectCurrentUser } from "../features/authSlice";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
+import { usePostOrderMutation } from "../features/ordersApiSlice";
+import { useEffect, useState } from "react";
+import Basket from "../assets/shared/baskett.png";
+import SuccessPage from "./SuccessPage";
 
 // styles
 import "./Checkout.css";
+
+let USDollar = new Intl.NumberFormat("en-US", {
+  currency: "USD",
+});
 
 const checkoutSchema = z.object({
   name: z
@@ -82,11 +95,15 @@ export default function Checkout() {
     resolver: zodResolver(checkoutSchema),
     defaultValues: { paymentMethod: "card" },
   });
-  const paymentByCard = watch("paymentMethod");
+  const [error, setError] = useState(false);
   const products = useSelector(selectAll);
+  const { user } = useSelector(selectCurrentUser);
+  const paymentByCard = watch("paymentMethod");
   const prices = totalPrice(products);
+  const [postOrder, { isLoading, isSuccess }] = usePostOrderMutation();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    setError(false);
     if (products.length === 0) {
       return;
     }
@@ -102,7 +119,31 @@ export default function Checkout() {
         return;
       }
     }
-    console.log(data);
+    const total = totalPrice(products);
+
+    // perform payment here
+    const { address, city, country, email, name, paymentMethod, phone, zip } =
+      data;
+    const orderData = {
+      address,
+      city,
+      country,
+      email,
+      paymentMethod,
+      phone,
+      name,
+      zip,
+      userId: user.id,
+      totalAmount: parseFloat(total),
+      products,
+    };
+    try {
+      window.scrollTo(0, 0);
+      const response = await postOrder({ ...orderData }).unwrap();
+      reset();
+    } catch (error) {
+      setError(true);
+    }
   };
 
   if (paymentByCard === "cod") {
@@ -113,11 +154,27 @@ export default function Checkout() {
   return (
     <section className="checkout-section">
       <div className="container">
-        {products.length === 0 && <div className="cart-empty">cart empty</div>}
+        {products.length === 0 && (
+          <div className="checkout-cart-empty">
+            <Player
+              className="CartEmpty"
+              autoplay
+              loop
+              src={CartEmpty}
+            ></Player>
+            <strong>
+              The cart&apos;s <span>empty!</span>
+            </strong>
+          </div>
+        )}
+
         {products.length >= 1 && (
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="even-columns">
               <div className="checkout-container">
+                <Link className="go-back-link" to="/">
+                  Go Home
+                </Link>
                 <h3>checkout</h3>
                 <div className="billing-details">
                   <strong>billing details</strong>
@@ -287,14 +344,14 @@ export default function Checkout() {
                     </div>
                     <div className="content">
                       <strong>{product.name}</strong>
-                      <strong>$ {product.price}</strong>
+                      <strong>$ {USDollar.format(product.price)}</strong>
                     </div>
                     <small>x{product.quantity}</small>
                   </div>
                 ))}
                 <div className="checkout-total">
                   <small>total</small>
-                  <strong>$ {prices[0]}</strong>
+                  <strong>$ {USDollar.format(prices[0])}</strong>
                 </div>
                 <div className="checkout-shipping">
                   <small>shipping</small>
@@ -302,18 +359,37 @@ export default function Checkout() {
                 </div>
                 <div className="checkout-vat">
                   <small>vat (included)</small>
-                  <strong>$ {prices[1]}</strong>
+                  <strong>$ {USDollar.format(prices[1])}</strong>
                 </div>
                 <div className="checkout-grand-total">
                   <small>grand total</small>
-                  <strong>$ {prices[2]}</strong>
+                  <strong>$ {USDollar.format(prices[2])}</strong>
                 </div>
-                <button disabled={products.length === 0}>continue & pay</button>
+                <m.button
+                  whileHover={{ opacity: 0.8 }}
+                  whileTap={{ opacity: 0.8, scale: 1.1 }}
+                  whileFocus={{ opacity: 0.8, scale: 1.1 }}
+                  disabled={products.length === 0 || isLoading}
+                >
+                  continue & pay
+                </m.button>
+                {error && (
+                  <small className="error">
+                    Something went wrong while processing your payment. Please
+                    try again.
+                  </small>
+                )}
               </div>
             </div>
           </form>
         )}
       </div>
+      {isLoading && (
+        <div className="backdrop">
+          <Player autoplay loop src={Loader}></Player>
+        </div>
+      )}
+      {isSuccess && <SuccessPage />}
     </section>
   );
 }

@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.react-email
 dist
 dist-ssr
 *.local

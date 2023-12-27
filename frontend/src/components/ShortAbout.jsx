@@ -1,6 +1,8 @@
 // styles
 import "./ShortAbout.css";
 
+import { motion as m } from "framer-motion";
+
 // images
 import HeadphoneManDesktop from "../assets/shared/desktop/image-best-gear.jpg";
 import HeadphoneManTablet from "../assets/shared/tablet/image-best-gear.jpg";
@@ -8,7 +10,13 @@ import HeadphoneManMobile from "../assets/shared/mobile/image-best-gear.jpg";
 
 export default function ShortAbout() {
   return (
-    <section className="short-about-section">
+    <m.section
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ ease: "easeInOut", duration: 0.5 }}
+      className="short-about-section"
+    >
       <div className="container">
         <div className="even-columns">
           <div className="short-about-image">
@@ -34,6 +42,6 @@ export default function ShortAbout() {
           </div>
         </div>
       </div>
-    </section>
+    </m.section>
   );
 }

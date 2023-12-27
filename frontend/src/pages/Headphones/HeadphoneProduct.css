@@ -158,6 +158,60 @@ section.not-new .product-details h2 {
   gap: 1.25rem;
 }
 
+.suggestion-section {
+  margin-block: 7.5rem 10rem;
+}
+
+.suggestion-container {
+  margin-inline: auto;
+  max-width: 350px;
+}
+.suggestion-section .even-columns {
+  display: grid;
+  gap: 3.5rem;
+}
+
+.suggestion-section h3 {
+  font-size: var(--fs-24);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.suggestion-container .suggested-product h5 {
+  font-size: var(--fs-24);
+  text-align: center;
+  text-transform: uppercase;
+  margin-block: 2rem;
+}
+.suggestion-container .suggested-product a {
+  width: 165px;
+  height: 50px;
+  border-radius: 0;
+  background: transparent;
+  display: block;
+  margin-inline: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  justify-content: center;
+  text-transform: uppercase;
+  font-weight: var(--fw-B);
+  background-color: hsl(var(--clr-accent-1));
+  font-size: var(--fs-13);
+  letter-spacing: 1px;
+  transition: opacity ease-in-out 250ms;
+}
+
+.suggestion-container .suggested-product a:hover,
+.suggestion-container .suggested-product a:focus {
+  opacity: 0.8;
+}
+
 @media (min-width: 40em) {
   .headphone-product-section {
     margin-top: 2rem;
@@ -236,6 +290,22 @@ section.not-new .product-details h2 {
     grid-row: 1/3;
     grid-column: 2/3;
   }
+
+  .suggestion-section {
+    margin-inline: none;
+  }
+
+  .suggestion-section .even-columns {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    place-content: center;
+  }
+
+  .suggestion-container {
+    margin-inline: auto;
+    max-width: 100%;
+  }
 }
 
 @media (min-width: 60em) {
@@ -307,5 +377,21 @@ section.not-new .product-details h2 {
     display: grid;
     grid-template-columns: 1fr 57%;
     gap: 1.25rem;
+  }
+
+  .suggestion-section h3 {
+    font-size: var(--fs-32);
+    margin-bottom: 4rem;
+  }
+
+  .suggestion-container .suggested-product h5 {
+    margin-block: 3rem 2rem;
+  }
+  .suggestion-section {
+    margin-block: 10rem 12.5rem;
+  }
+
+  .suggestion-section .even-columns {
+    gap: 2rem;
   }
 }

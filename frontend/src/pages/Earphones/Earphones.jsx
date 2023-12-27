@@ -1,5 +1,5 @@
 // imports
-import { Link, ScrollRestoration } from "react-router-dom";
+import { ScrollRestoration } from "react-router-dom";
 
 // styles
 import "./Earphones.css";
@@ -11,9 +11,10 @@ import { useGetProductsQuery } from "../../features/productsApiSlice";
 import Category from "../../components/Category";
 import ShortAbout from "../../components/ShortAbout";
 import ProductList from "../../components/ProductList";
+import ProductListLoader from "../../components/loaders/ProductListLoader";
 
 export default function Earphones() {
-  const { isSuccess, data } = useGetProductsQuery("earphones");
+  const { isSuccess, data, isLoading } = useGetProductsQuery("earphones");
 
   return (
     <>
@@ -25,13 +26,10 @@ export default function Earphones() {
       </section>
       <section className="product-category-section flow product-category-section-spacer">
         {isSuccess &&
-          data.ids.map((productId, index) => (
-            <ProductList
-              key={productId}
-              number={index}
-              product={data.entities[productId]}
-            />
+          data.ids.map((productId) => (
+            <ProductList key={productId} product={data.entities[productId]} />
           ))}
+        {isLoading && <ProductListLoader />}
       </section>
       <section className="category-section">
         <div className="container">

@@ -10,7 +10,7 @@ router.post("/signup", signUp);
 router.post("/login", login);
 
 // logout
-router.get("/logout", logout);
+router.post("/logout", logout);
 
 // get new access token
 router.get("/refresh", handleRefreshToken);

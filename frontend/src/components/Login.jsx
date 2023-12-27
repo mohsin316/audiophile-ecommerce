@@ -1,74 +1,113 @@
+import { Player } from "@lottiefiles/react-lottie-player";
+import Loader from "../assets/shared/loader.json";
+
 // styles
 import "./Login.css";
-import { useState, useEffect } from "react";
+
+// imports
+import { useEffect, useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { motion as m, AnimatePresence } from "framer-motion";
+
+// rtk
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials, selectCurrentUser } from "../features/authSlice";
 import { useLoginMutation } from "../features/authApiSlice";
-import { useLocation, useNavigate, Link } from "react-router-dom";
 
-import { createClient } from "@supabase/supabase-js";
+// rr6
+import { useLocation, useNavigate } from "react-router-dom";
 
-// Create a single supabase client for interacting with your database
-const supabase = createClient(
-  "https://delyvsmuliqlbeccucrz.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbHl2c211bGlxbGJlY2N1Y3J6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTkwMjcxMzYsImV4cCI6MjAxNDYwMzEzNn0.zSmw19VIuZzJl8RrP0UsZBzWYwlO9kt7zybULQBHJ9E"
-);
+// images
+import Avatar from "../assets/shared/user.png";
+import Padlock from "../assets/shared/padlock.png";
+
+const loginSchema = z.object({
+  email: z.string().email().trim().toLowerCase(),
+  password: z
+    .string()
+    .regex(new RegExp(".*[A-Z].*"), "One uppercase character")
+    .regex(new RegExp(".*[a-z].*"), "One lowercase character")
+    .regex(new RegExp(".*\\d.*"), "One number")
+    .regex(
+      new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*"),
+      "One special character"
+    )
+    .min(8, "Must be at least 8 characters in length"),
+});
 
 export default function Login() {
-  const [email, setEmail] = useState("example@email.com");
-  const [password, setPassword] = useState("example-password");
-  const [errMsg, setErrMsg] = useState("");
-
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  const { accessToken: user } = useSelector(selectCurrentUser);
+
+  useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+    }
+  }, [user, from, navigate]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
-  const userAuth = useSelector(selectCurrentUser);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
+    setError("");
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: "example@email.com",
-        password: "example-password",
-      });
-      console.log(data, error);
-      // const userData = await login({ email, password }).unwrap();
-      // console.log(userData);
-      // dispatch(setCredentials({ ...userData }));
+      const userData = await login({ ...data }).unwrap();
+      dispatch(setCredentials({ ...userData }));
       navigate(from, { replace: true });
     } catch (error) {
-      console.log("there was an error", error.status);
+      setError(error.data.error);
     }
   };
 
-  // useEffect(() => {
-  //   console.log(userAuth, isLoading);
-  // }, [userAuth, isLoading]);
-
   return (
-    <section>
+    <section className="login-section">
       <div className="container">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h2>Login</h2>
           <label>
-            email
+            <img src={Avatar} alt="avatar" />
+            <input placeholder="Email" {...register("email")} type="text" />
+          </label>
+          {errors.email && (
+            <small className="error">{errors.email.message}</small>
+          )}
+          <label>
+            <img src={Padlock} alt="Padlock" />
             <input
-              value="example@email.com"
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Password"
+              {...register("password")}
+              type="password"
             />
           </label>
-          <label>
-            pass
-            <input
-              value="example-password"
-              type="text"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-          {!isLoading && <button>submit</button>}
+          {errors.password && (
+            <small className="error">{errors.password.message}</small>
+          )}
+
+          {error && <small className="server-error">{error}</small>}
+          <m.button
+            whileHover={{ opacity: 0.8 }}
+            whileTap={{ opacity: 0.8, scale: 1.1 }}
+            disabled={isLoading}
+          >
+            Login
+          </m.button>
+          {isLoading && (
+            <Player className="loader" autoplay loop src={Loader}></Player>
+          )}
         </form>
       </div>
     </section>

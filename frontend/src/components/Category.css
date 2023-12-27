@@ -44,6 +44,7 @@
   font-size: var(--fs-15);
   color: black;
   letter-spacing: 1.1px;
+  transition: color ease-in-out 250ms;
 }
 
 .category-shop-link {
@@ -54,6 +55,14 @@
   font-size: var(--fs-13);
   color: #797979;
   letter-spacing: 1.1px;
+  transition: color ease-in-out 250ms;
+}
+
+.category-shop-link:hover,
+.category-link:hover,
+.category-link:focus,
+.category-shop-link:focus {
+  color: hsl(var(--clr-accent-1));
 }
 
 .category-shop-link div {

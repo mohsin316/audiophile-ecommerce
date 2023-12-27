@@ -17,41 +17,58 @@ import Earphones from "./pages/Earphones/Earphones";
 import EarphoneProduct from "./pages/Earphones/EarphoneProduct";
 import Checkout from "./components/Checkout";
 import Login from "./components/Login";
+import Signup from "./components/Signup";
+import RequireAuth from "./components/requireAuth";
+import PersistLogin from "./components/PersistLogin";
+import NotFound from "./components/NotFound";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Orders from "./pages/Dashboard/Orders";
+import Create from "./pages/Dashboard/Create";
 
 // styles
 import "./App.css";
-import RequireAuth from "./components/requireAuth";
-import AuthTestOne from "./components/Welcome";
-import Welcome from "./components/Welcome";
-import Users from "./components/Users";
+import RequireAdmin from "./components/RequireAdmin";
+import Edit from "./pages/Dashboard/Edit";
+import Update from "./pages/Dashboard/Update";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Navbar />}>
-      <Route index element={<Home />} />
-      <Route path="login" element={<Login />} />
+    <Route element={<PersistLogin />}>
+      <Route path="/" element={<Navbar />}>
+        <Route index element={<Home />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
 
-      <Route path="headphones">
-        <Route index element={<Headphones />} />
-        <Route path=":id" element={<HeadphoneProduct />} />
+        <Route path="headphones">
+          <Route index element={<Headphones />} />
+          <Route path=":id" element={<HeadphoneProduct />} />
+        </Route>
+
+        <Route path="speakers">
+          <Route index element={<Speakers />} />
+          <Route path=":id" element={<SpeakerProduct />} />
+        </Route>
+
+        <Route path="earphones">
+          <Route index element={<Earphones />} />
+          <Route path=":id" element={<EarphoneProduct />} />
+        </Route>
+
+        <Route element={<RequireAuth />}>
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="dashboard" element={<Dashboard />}>
+            <Route index element={<Orders />} />
+            <Route element={<RequireAdmin />}>
+              <Route path="create" element={<Create />} />
+              <Route path="edit">
+                <Route index element={<Edit />} />
+                <Route path=":id" element={<Update />} />
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Route>
-
-      <Route path="speakers">
-        <Route index element={<Speakers />} />
-        <Route path=":id" element={<SpeakerProduct />} />
-      </Route>
-
-      <Route path="earphones">
-        <Route index element={<Earphones />} />
-        <Route path=":id" element={<EarphoneProduct />} />
-      </Route>
-
-      <Route element={<RequireAuth />}>
-        <Route path="welcome" element={<Welcome />} />
-        <Route path="users" element={<Users />} />
-      </Route>
-
-      <Route path="checkout" element={<Checkout />} />
     </Route>
   )
 );

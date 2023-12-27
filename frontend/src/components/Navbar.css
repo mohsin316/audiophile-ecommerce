@@ -15,6 +15,12 @@ header .container {
 
 .primary-navigation a {
   color: white;
+  transition: color ease-in-out 250ms;
+}
+
+.primary-navigation a:hover,
+.primary-navigation a:focus {
+  color: hsl(var(--clr-accent-1));
 }
 
 header .hamburger {
@@ -37,7 +43,12 @@ header button {
 .primary-navigation img {
   display: none;
 }
-
+.cart-auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
 .cart {
   position: relative;
 }
@@ -57,6 +68,11 @@ header button {
   right: 0;
   transform: translate(50%, -75%);
   background-color: hsl(var(--clr-accent-1));
+}
+
+.userLoginSignup {
+  height: 21px;
+  width: 21px;
 }
 
 @media (max-width: 60em) {
@@ -177,6 +193,9 @@ header button {
 }
 
 @media (max-width: 60em) and (min-width: 48em) {
+  .cart-auth {
+    gap: 1rem;
+  }
   .primary-navigation ul {
     display: flex;
     flex-direction: row;
@@ -199,7 +218,7 @@ header button {
     margin-left: 2.625rem;
   }
 
-  header .cart {
+  header .cart-auth {
     margin-left: auto;
   }
 }

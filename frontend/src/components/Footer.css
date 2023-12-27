@@ -27,6 +27,12 @@ footer .even-columns {
   font-weight: var(--fw-B);
   text-decoration: none;
   color: white;
+  transition: color ease-in-out 250ms;
+}
+
+.category-navigation ul a:hover,
+.category-navigation ul a:focus {
+  color: hsl(var(--clr-accent-1));
 }
 
 .footer-description p {

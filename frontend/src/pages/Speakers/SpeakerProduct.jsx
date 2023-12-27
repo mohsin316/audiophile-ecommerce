@@ -1,7 +1,14 @@
 // imports
-import { useParams, Link, ScrollRestoration } from "react-router-dom";
-import { useState } from "react";
+import {
+  useParams,
+  Link,
+  ScrollRestoration,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { useState, useEffect } from "react";
 import { addToCart } from "../../features/cartSlice";
+import { motion as m } from "framer-motion";
 import { useDispatch } from "react-redux";
 // RTKQ
 import { useGetProductsQuery } from "../../features/productsApiSlice";
@@ -12,16 +19,32 @@ import "./SpeakerProduct.css";
 // components
 import Category from "../../components/Category";
 import ShortAbout from "../../components/ShortAbout";
+import ProductLoader from "../../components/loaders/ProductLoader";
+
+let USDollar = new Intl.NumberFormat("en-US", {
+  currency: "USD",
+});
 
 export default function SpeakerProduct() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/speakers";
+  const navigate = useNavigate();
+
   const { id } = useParams();
   const [itemNumber, setItemNumber] = useState(1);
-  const { product } = useGetProductsQuery("speakers", {
-    selectFromResult: ({ data }) => ({
-      product: data?.entities[id],
+  const { product, isLoading } = useGetProductsQuery("speakers", {
+    selectFromResult: ({ data, isLoading }) => ({
+      product: data ? data.entities[id] : null,
+      isLoading,
     }),
   });
+
+  useEffect(() => {
+    if (!isLoading && product === undefined) {
+      navigate("/notfound");
+    }
+  }, [isLoading]);
 
   const handleCount = (operation) => {
     if (operation === "add") {
@@ -63,7 +86,7 @@ export default function SpeakerProduct() {
           >
             <div className="container">
               <div className="even-columns">
-                <Link className="go-back-link" to="/speakers">
+                <Link className="go-back-link" to={from}>
                   Go Back
                 </Link>
                 <div className="product-image">
@@ -86,19 +109,34 @@ export default function SpeakerProduct() {
                   {product.new && <small className="new">NEW PRODUCT</small>}
                   <h2>{product.name}</h2>
                   <p>{product.description}</p>
-                  <strong>$ {product.price}</strong>
+                  <strong>$ {USDollar.format(product.price)}</strong>
                   <div className="add-to-cart-container">
                     <div className="quantity-counter">
-                      <button onClick={() => handleCount("subtract")}>-</button>
+                      <m.button
+                        whileHover={{ color: "red" }}
+                        whileFocus={{ color: "red" }}
+                        onClick={() => handleCount("subtract")}
+                      >
+                        -
+                      </m.button>
                       <small>{itemNumber}</small>
-                      <button onClick={() => handleCount("add")}>+</button>
+                      <m.button
+                        whileHover={{ color: "red" }}
+                        whileFocus={{ color: "red" }}
+                        onClick={() => handleCount("add")}
+                      >
+                        +
+                      </m.button>
                     </div>
-                    <button
+                    <m.button
+                      whileHover={{ opacity: 0.8 }}
+                      whileTap={{ opacity: 0.8, scale: 1.1 }}
+                      whileFocus={{ opacity: 0.8, scale: 1.1 }}
                       className="add-to-cart-button"
                       onClick={handleAddToCart}
                     >
                       add to cart
-                    </button>
+                    </m.button>
                   </div>
                 </div>
               </div>
@@ -177,11 +215,53 @@ export default function SpeakerProduct() {
               </div>
             </div>
           </section>
-          <section className="suggestion-section">
-            <div className="container">{/* component */}</div>
-          </section>
+          <m.section
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ ease: "easeInOut", duration: 0.5 }}
+            className="suggestion-section"
+          >
+            <div className="container">
+              <h3>you may also like</h3>
+              <div className="suggestion-container">
+                <div className="even-columns">
+                  {product.others.map((product) => (
+                    <div key={product.id} className="suggested-product">
+                      <div className="product-image">
+                        <picture>
+                          <source
+                            media="(max-width: 700px)"
+                            srcSet={`${product.image[0].mobile}`}
+                          />
+                          <source
+                            media="(max-width: 1000px)"
+                            srcSet={`${product.image[0].tablet}`}
+                          />
+                          <img
+                            src={`${product.image[0].desktop}`}
+                            alt="product image"
+                          />
+                        </picture>
+                      </div>
+                      <h5>{product.name}</h5>
+                      <Link
+                        state={{ from: location }}
+                        replace
+                        to={`/${product.category}/${product.itemId}`}
+                      >
+                        see product
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </m.section>
         </>
       )}
+      {isLoading && <ProductLoader />}
+
       <section className="category-section">
         <div className="container">
           <Category />

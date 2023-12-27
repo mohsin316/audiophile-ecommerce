@@ -24,10 +24,10 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       api,
       extraOptions
     );
-    console.log(
-      "this is from the refreshTokenController, the refresh result is:-",
-      refreshResult
-    );
+    // console.log(
+    //   "this is from the refreshTokenController, the refresh result is:-",
+    //   refreshResult
+    // );
     if (refreshResult?.data) {
       const user = api.getState().auth.user;
       // store new token
@@ -44,6 +44,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
   reducerPath: "api", // optional
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Product"],
+  tagTypes: ["Product", "Order"],
   endpoints: (builder) => ({}),
 });

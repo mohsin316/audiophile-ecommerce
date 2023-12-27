@@ -1,5 +1,5 @@
-.checkout-section .container {
-  margin-block: 4rem 6rem;
+.checkout-section {
+  padding-block: 4rem 6rem;
 }
 
 .checkout-section .cart-empty {
@@ -9,13 +9,23 @@
 .checkout-section .even-columns {
   display: grid;
   gap: 2rem;
+  position: relative;
 }
+
 .checkout-container {
   background-color: white;
   padding: 1.5rem 1.5rem 2rem;
   border-radius: 8px;
+  position: relative;
 }
 
+.checkout-section .go-back-link {
+  position: absolute;
+  top: -35px;
+  right: 100%;
+  left: 5px;
+  width: 100%;
+}
 .checkout-container h3 {
   font-size: var(--fs-28);
   text-transform: uppercase;
@@ -120,7 +130,7 @@
   box-shadow: inset 1em 1em hsl(var(--clr-accent-1));
 }
 .checkout-container input[type="radio"]:checked::before {
-  transform: scale(1);
+  transform: scale(1) translateX(0.5px);
 }
 
 .payment-details div > *:not(.form-control) input {
@@ -136,6 +146,7 @@
 
 .summary-container {
   background-color: white;
+  border-radius: 8px;
   padding: 1.5rem 2rem;
 }
 
@@ -228,6 +239,36 @@
   background-color: hsl(var(--clr-accent-1));
   font-size: var(--fs-13);
   letter-spacing: 1px;
+}
+
+.summary-container .error {
+  color: red;
+  font-size: var(--fs-13);
+  font-weight: var(--fw-B);
+  margin-top: 1rem;
+  display: block;
+  text-align: center;
+}
+
+.checkout-cart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.checkout-cart-empty .CartEmpty {
+  transform: translateY(-70px);
+  height: 550px;
+}
+
+.checkout-cart-empty strong {
+  font-size: var(--fs-28);
+  transform: translateY(-70px);
+  display: block;
+}
+
+.checkout-cart-empty span {
+  color: hsl(var(--clr-accent-1));
 }
 
 @media (min-width: 40em) {

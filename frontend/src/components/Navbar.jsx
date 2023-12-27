@@ -9,29 +9,24 @@ import Headphone from "../assets/shared/desktop/image-category-thumbnail-headpho
 import Speaker from "../assets/shared/desktop/image-category-thumbnail-speakers.png";
 import Earphone from "../assets/shared/desktop/image-category-thumbnail-earphones.png";
 import Arrow from "../assets/shared/desktop/icon-arrow-right.svg";
+import Avatar from "../assets/shared/user2.png";
 
 // imports
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import Footer from "./Footer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectAll } from "../features/cartSlice";
 
 // components
 import Cart from "./Cart";
+import UserLoginSignup from "./UserLoginSignup";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isAvatarOpen, setIsAvatarOpen] = useState(false);
   const cartItems = useSelector(selectAll);
-  const location = useLocation();
-
-  useEffect(() => {
-    // console.log("entity", cartItems);
-    // console.log("ids", allId);
-    // console.log("ids and entity", allEntity);
-    // console.log(cartOpen);
-  }, [cartItems]);
 
   return (
     <>
@@ -42,6 +37,7 @@ export default function Navbar() {
             onClick={() => {
               setIsOpen(!isOpen);
               setIsCartOpen(false);
+              setIsAvatarOpen(false);
             }}
           >
             <img src={Hamburger} alt="hamburger-menu" />
@@ -104,28 +100,40 @@ export default function Navbar() {
                     className="mobile-only-arrow"
                   ></div>
                 </Link>
-                <div></div>
-                <Link to="/login" state={{ from: location }} replace>
-                  login
-                </Link>
-                <div></div>
-                <Link to="/welcome">Auth</Link>
+                {/* <br />
+                <Link to="/welcome">welcome</Link> */}
               </li>
             </ul>
           </nav>
-          <button
-            className="cart"
-            onClick={() => {
-              setIsCartOpen(!isCartOpen);
-              setIsOpen(false);
-            }}
-          >
-            {cartItems.length >= 1 && <div>{cartItems.length}</div>}
-            <img src={CartImage} alt="cart" />
-          </button>
-          {isCartOpen && (
-            <Cart products={cartItems} setIsCartOpen={setIsCartOpen} />
-          )}
+          <div className="cart-auth">
+            <button
+              className="cart"
+              onClick={() => {
+                setIsCartOpen(!isCartOpen);
+                setIsOpen(false);
+                setIsAvatarOpen(false);
+              }}
+            >
+              {cartItems.length >= 1 && <div>{cartItems.length}</div>}
+              <img src={CartImage} alt="cart" />
+            </button>
+            {isCartOpen && (
+              <Cart products={cartItems} setIsCartOpen={setIsCartOpen} />
+            )}
+            <button
+              className="userLoginSignup"
+              onClick={() => {
+                setIsAvatarOpen(!isAvatarOpen);
+                setIsCartOpen(false);
+                setIsOpen(false);
+              }}
+            >
+              <img src={Avatar} alt="Avatar" />
+            </button>
+            {isAvatarOpen && (
+              <UserLoginSignup setIsAvatarOpen={setIsAvatarOpen} />
+            )}
+          </div>
         </div>
       </header>
 

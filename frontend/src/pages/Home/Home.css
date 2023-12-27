@@ -191,6 +191,11 @@
     text-transform: uppercase;
     color: white;
     letter-spacing: 1px;
+    transition: opacity ease-in-out 250ms;
+  }
+  .hero-introduction a:hover,
+  .hero-introduction a:focus {
+    opacity: 0.8;
   }
 }
 
@@ -282,6 +287,12 @@
   font-weight: var(--fw-B);
   letter-spacing: 1px;
   margin-bottom: 3.43rem;
+  transition: opacity ease-in-out 250ms;
+}
+
+.latest-speaker-one-details a:hover,
+.latest-speaker-one-details a:focus {
+  opacity: 0.8;
 }
 
 @media (min-width: 48em) {
@@ -413,6 +424,13 @@
   font-weight: var(--fw-B);
   font-size: var(--fs-13);
   letter-spacing: 1px;
+  transition: background-color ease-in-out 250ms, color ease-in-out 250ms;
+}
+
+.latest-speaker-two-details a:hover,
+.latest-speaker-two-details a:focus {
+  background-color: black;
+  color: white;
 }
 
 @media (min-width: 48em) {
@@ -483,6 +501,13 @@
   font-weight: var(--fw-B);
   font-size: var(--fs-13);
   letter-spacing: 1px;
+  transition: background-color ease-in-out 250ms, color ease-in-out 250ms;
+}
+
+.latest-earphone-three-details a:hover,
+.latest-earphone-three-details a:focus {
+  background-color: black;
+  color: white;
 }
 
 @media (min-width: 48em) {
