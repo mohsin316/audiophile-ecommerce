@@ -11,7 +11,7 @@ export default function PersistLogin() {
 
   const refresh = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_BASE_URL}/api/auth/refresh`,
+      `${import.meta.env.VITE_BASE_URL}/app2/auth/refresh`,
       { credentials: "include" }
     );
     const data = await response.json();
