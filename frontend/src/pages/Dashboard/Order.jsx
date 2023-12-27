@@ -1,5 +1,6 @@
 import Arrow from "../../assets/shared/right-arrow.png";
 import { useRef, useState } from "react";
+import generatePDF from "react-to-pdf";
 
 import Logo from "../../assets/shared/desktop/logo.svg";
 
