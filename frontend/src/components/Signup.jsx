@@ -71,6 +71,7 @@ export default function Signup() {
       dispatch(setCredentials({ ...userData }));
       navigate(from, { replace: true });
     } catch (error) {
+      console.log(error);
       setError(error.data.error);
     }
   };

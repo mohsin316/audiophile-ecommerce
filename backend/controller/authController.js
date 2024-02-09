@@ -16,7 +16,9 @@ const signUp = async (req, res) => {
       password,
     });
     if (!data.user) {
-      throw new Error(error.message);
+      console.log({ error: error.status });
+
+      throw new Error(error);
     }
     const user = await prisma.user.create({
       data: {
@@ -36,7 +38,7 @@ const signUp = async (req, res) => {
       user: { isAdmin: user.isAdmin, id: user.id, username: user.username },
     });
   } catch (error) {
-    res.status(409).json({ error: error.message }); //conflict
+    res.status(409).json({ error: error }); //conflict
   }
 };
 
@@ -54,6 +56,7 @@ const login = async (req, res) => {
       password,
     });
     if (!data.user) {
+      console.log({ error });
       throw new Error(error.message);
     }
     res.cookie("jwt", data.session.refresh_token, {
@@ -73,6 +76,7 @@ const login = async (req, res) => {
       user: { isAdmin: user.isAdmin, id: user.id, username: user.username },
     });
   } catch (error) {
+    console.log(error.errorCode);
     res.status(401).json({ error: error.message }); //unauthorized
   }
 };
