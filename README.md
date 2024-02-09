@@ -34,15 +34,10 @@ Users should be able to:
 ### Screenshot
 
 ![](./preview/home-desktop.png)
-![](./preview/home-mobile.png.png)
 ![](./preview/headphones-desktop.png)
-![](./preview/headphones-mobile.png)
 ![](./preview/speakers-desktop.png)
-![](./preview/speakers-mobile.png)
 ![](./preview/earphones-desktop.png)
-![](./preview/earphones-mobile.png)
 ![](./preview/checkout-desktop.png)
-![](./preview/checkout-mobile.png)
 
 ### Links
 
