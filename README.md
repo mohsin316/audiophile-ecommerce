@@ -1,4 +1,4 @@
-# Audiophile e-commerce website solution
+# Audiophile e-commerce website
 
 ## Table of contents
 
